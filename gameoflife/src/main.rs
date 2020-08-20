@@ -26,14 +26,12 @@ fn life(rows:i16, cols:i16, generations:i16){
     }
 
     for i in 0..length{
-        println!("{}", arr[i]);
+        print!("{}", arr[i]);
         if((i as i16) !=0 && ((i as i16)+1) % rows == 0)
         {
-            println!("\n");
+            println!();
         }
     }
-
-    println!("array size: {}", arr.len());
 }
 
 fn live()
