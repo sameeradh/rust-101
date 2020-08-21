@@ -1,17 +1,20 @@
 extern crate rand;
 use rand::Rng;
+use std::io::{self, Write};
+use std::{thread, time};
 
 fn main() {
-    let rows:i16 = 5;
-    let cols:i16 = 4;
-    let generations:i16 = 4;
+    clear();
+    let rows:i16 = 50;
+    let cols:i16 = 20;
+    let generations:i16 = 50;
     life(rows, cols, generations)
 }
 
 fn life(rows:i16, cols:i16, generations:i16){
     let length :usize = ((rows * cols)) as usize;
     let mut arr = vec![0; length];
-    let some: f32 = 0.429;
+    let some: f32 = 0.629;
     let mut rng = rand::thread_rng();
 
     for i in 0..length{
@@ -35,14 +38,22 @@ fn live(a:&mut [i16], r:i16, cols:i16, mut gen:i16) {
         return;
     }
 
+    clear();
     println!("Generation {}\n", gen);
     for i in 0..a.len(){
-        print!("{}", a[i as usize]);
+        if a[i as usize] == 1 {
+            print!("o")
+        }
+        else{
+            print!(" ")
+        }
+
         if (i as i16) !=0 && ((i as i16)+1) % r == 0
         {
             println!();
         }
     }
+    thread::sleep(time::Duration::from_millis(100));
 
     let mut b = vec![0; a.len()];
     for x in 0..a.len() {
@@ -114,8 +125,10 @@ fn live(a:&mut [i16], r:i16, cols:i16, mut gen:i16) {
     
     gen -= 1;
     live(b.as_mut_slice(), r, cols, gen);
-    
-    
-    
+}
+
+/// Clears the terminal screen.
+pub fn clear() {
+    io::stdout().write_all("\x1b[2J\x1b[1;1H".as_bytes()).unwrap()
 }
 
