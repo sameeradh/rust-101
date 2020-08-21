@@ -4,11 +4,11 @@ use rand::Rng;
 fn main() {
     let rows:i16 = 5;
     let cols:i16 = 4;
-    let mut generations:i16 = 4;
+    let generations:i16 = 4;
     life(rows, cols, generations)
 }
 
-fn life(rows:i16, cols:i16, mut generations:i16){
+fn life(rows:i16, cols:i16, generations:i16){
     let length :usize = ((rows * cols)) as usize;
     let mut arr = vec![0; length];
     let some: f32 = 0.429;
@@ -34,6 +34,7 @@ fn live(a:&mut [i16], r:i16, cols:i16, mut gen:i16) {
     if gen<1 {
         return;
     }
+
     println!("Generation {}\n", gen);
     for i in 0..a.len(){
         print!("{}", a[i as usize]);
@@ -45,29 +46,75 @@ fn live(a:&mut [i16], r:i16, cols:i16, mut gen:i16) {
 
     let mut b = vec![0; a.len()];
     for x in 0..a.len() {
-        if(x-1 < 0){
-            let c_m1:i16 = 0;
-        }
-        else{
-            let c_m1:i16 = a[x-1];
+        let mut c_left: i16 = 0;
+        let mut c_right: i16 = 0; 
+        
+        let mut c_top: i16 = 0;
+        let mut c_top_left: i16 = 0;
+        let mut c_top_right: i16 =0;
+
+        let mut c_bottom: i16 = 0;
+        let mut c_bottom_left: i16 = 0;
+        let mut c_bottom_right: i16 =0;
+        
+        if x as i16 - 1 >= 0 {
+            c_left = a[x-1];
         }
 
-        let c_p1: usize = x+1;
-        let c_mr_m1: usize = x-r as usize -1;
-        let c_mr: usize = x-r as usize;
-        let c_mr_p1: usize = x-r as usize +1;
-        let c_pr_m1: usize = x+r as usize -1;
-        let c_pr: usize = x+r as usize;
-        let c_pr_p1: usize = x+r as usize +1;
-        let neighbors: i16 = a[c_p1 as usize]+a[c_mr_m1 as usize]+a[c_mr as usize]+a[c_mr_p1 as usize]+a[c_pr_m1 as usize]+a[c_pr as usize]+a[c_pr_p1 as usize];
+        if x as i16 +1 < r {
+            c_right = a[x+1]; 
+        }
+
+        if x as i16 - r  >= 0{
+            c_top = a[x - (r as usize)];
+        }
+
+        if x % (r as usize) != 0 && x as i16 - r  -1 > 0{
+            c_top_left = a[x - (r as usize) -1];
+        } 
+
+        if (x + 1) % (r as usize) != 0 && x as i16 - r + 1 >= 0  {
+            c_top_right = a[x - (r as usize) + 1];
+        } 
+
+        if x + (r as usize) < a.len() {
+            c_bottom = a[x + (r as usize)];
+        }
+
+        if x % (r as usize) != 0 && x + (r as usize) -1 < a.len(){
+            c_bottom_left = a[x + (r as usize) -1];
+        } 
+
+        if x + 1 % (r as usize) != 0 && x + (r as usize) + 1 < a.len()  {
+            c_bottom_right = a[x + (r as usize) + 1];
+        } 
+
         
+        let _neighbors: i16 = c_left + c_right + c_top + c_top_left + c_top_right + c_bottom + c_bottom_left + c_bottom_right;
         b[x] = a[x];
+        if a[x] == 1
+        {
+            if _neighbors < 2{
+                b[x] = 0;
+            }
+            else if _neighbors > 3{
+                b[x] = 0;
+            }
+             
+
+        }
+        else
+        {
+            if _neighbors == 3{
+                b[x] = 1;
+            }
+        }
+        
     }
-    if(gen > 1)
-    {
-        gen -= 1;
-        live(b.as_mut_slice(), r, cols, gen);
-    }
+    
+    gen -= 1;
+    live(b.as_mut_slice(), r, cols, gen);
+    
     
     
 }
