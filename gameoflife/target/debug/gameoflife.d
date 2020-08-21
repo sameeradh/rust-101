@@ -1,1 +1,1 @@
-/Users/sameeradhikari/Downloads/NCSU/Fall\ 2020/SE/Project/HW2/gameoflife/target/debug/gameoflife: /Users/sameeradhikari/Downloads/NCSU/Fall\ 2020/SE/Project/HW2/gameoflife/src/main.rs
+/Users/poorvaja/Documents/NCSU/SE_CSC510/Homeworks/HW02/rust-101/gameoflife/target/debug/gameoflife: /Users/poorvaja/Documents/NCSU/SE_CSC510/Homeworks/HW02/rust-101/gameoflife/src/main.rs
